@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128882787-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-128882787-1');
+    </script>
+
+    <meta charset="UTF-8">
+    <title>MCBE RANK</title>
+
+    <!-- Site Setting -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name=theme-color" content="#37474f">
+
+    <!-- Site Information -->
+    <meta name="description" content="Minecraft BE: MCBE 서버 랭킹을 표시합니다.">
+    <link rel="canonical" href="https://pmmp.me/">
+    <meta property="al:web:url" content="https://pmmp.me/">
+
+    <!-- open graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MCBE RANK">
+    <meta property="og:description" content="Minecraft BE: MCBE 서버 랭킹을 표시합니다.">
+    <meta property="og:image" content="https://pmmp.me/images/Logo.png">
+    <meta property="og:url" content="https://pmmp.me/">
+
+    <!-- Load library -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script src="https://www.promisejs.org/polyfills/promise-7.0.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-html.min.js"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+    <script src="/assets/js/mine-chart/ResponsiveSVG.js"></script>
+    <script src="/assets/js/mine-chart/mine-chart.js"></script>
+
+    <!-- Load fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <script src="/assets/js/main.js"></script>
+
+    <meta name="google-site-verification" content="cZoibOe8E0vZBBMdFF0CjxtLR7RM96r6flqG0F27mdw"/>
+    <meta name="naver-site-verification" content="6ecbc4acfc7912f9f84978b91cbf0e7982716669"/>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6147290477739165",
+            enable_page_level_ads: true
+        });
+
+        Kakao.init('e133a8b9351a82b23ddcac7a4d964686');
+    </script>
+</head>
+<body>
+
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="" id="navbar">
+    <a class="navbar-brand" href="/">MCBE RANK</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/plugins/">플러그인 목록</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/api/">API</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#rank_chart">그래프</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#servers">서버 목록</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    $(window).resize(() => {
+        document.getElementById("navbar").style.margin.bottom = document.getElementById("navbar").style.height;
+    })
+</script>
+
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h6 onclick="location.href='#notice'" id="notice"><span class="badge badge-secondary">공지</span> 서버 등록 문의</h6>
+    <hr>
+    <div class="mb-0" id="plusfriend-chat-button" style="font-weight: bold;">서버 등록 문의하기 >></div>
+    <script>
+        Kakao.PlusFriend.createChatButton({
+            container: '#plusfriend-chat-button',
+            plusFriendId: '_HFTbj'
+        });
+    </script>
+</div>
+
+<button onclick="refreshData()" type="button" class="btn btn-outline-success"
+        style="margin: 0; position:fixed; right: 20px; bottom: 20px;">
+    <i class="fas fa-sync-alt"></i>
+</button>
+
+<section style="margin-bottom: 50px; margin-top: 30px;" class="container">
+    <h2 style="text-align: left;">MCBE RANK</h2>
+    <p style="margin-bottom: 20px; text-align: left;"><%- Object.values(servers).length %>개의 서버가 온라인이며, 총
+        <% var count = 0; for (let server of Object.values(servers)) {
+            count += server.player_count;
+        } %>
+        <%- count %>명이 플레이 중 입니다.</p>
+    <div class="border" style="padding-bottom: 10px;">
+        <svg id="rank_chart"></svg>
+    </div>
+    <div class="row center center-flex" style="width: 80%;">
+        <!--<i class="fas fa-sync-alt col" style="width: 60%; margin-bottom: 5px;" onclick="refreshData()"> 새로고침</i>-->
+        <div class="custom-control custom-checkbox mr-sm-2 col" style="">
+            <input type="checkbox" class="custom-control-input" id="showTotal">
+            <label class="custom-control-label" for="showTotal" onclick="chart.transition().toggle('total');">동접 합계
+                표시</label>
+        </div>
+        <!-- <button type="button" class="btn btn-outline-success col-md-5" style="width: 60%;" onclick="refreshData()">새로고침</button> -->
+    </div>
+
+</section>
+
+<script>
+    d3.json(location.protocol + "//" + location.host + "/api/getOnlineServers/").then(data => {
+        window.chart = new MineChart('#rank_chart');
+        data = data.result;
+        for (let i = 0; i < 3; i++) {
+            chart.add(data[i].host + ":" + data[i].port);
+        }
+    });
+
+    function refreshData() {
+
+        d3.json(location.protocol + "//" + location.host + "/api/getOnlineServers/").then(async (data) => {
+            for (let name in chart.data) {
+                chart.remove(name);
+            }
+
+            data = data.result;
+            for (let i = 0; i < 3; i++) {
+                chart.add(data[i].host + ":" + data[i].port);
+            }
+
+            if (document.getElementById("showTotal").checked) {
+                chart.add("total");
+            }
+
+            window.__lastData = undefined;
+            await reloadData();
+
+            alert("새로고침 완료");
+        });
+    }
+</script>
+
+<!--<div class="default-container center">-->
+<section class="container center">
+    <h4>서버 정렬</h4>
+    <hr>
+    <div class="center row">
+        <h6 class="col-md-6 center-flex" style="padding-top: 10px">서버 온/오프라인 여부</h6>
+        <div class=" col-md-6 col-xl-6 col-lg-6"
+             style="display: flex; justify-content: space-around; max-width: 80%; margin: 0 auto;">
+            <div class="custom-control custom-radio">
+                <input type="radio" id="online" name="customRadio" class="custom-control-input" checked
+                       onchange="reloadData(this)">
+                <label class="custom-control-label" for="online">ONLINE</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="offline" name="customRadio" class="custom-control-input"
+                       onchange="reloadData(this)">
+                <label class="custom-control-label" for="offline">OFFLINE</label>
+            </div>
+        </div>
+    </div>
+    <div class="center row" style="max-width: 90%; display: flex; justify-content: space-around;">
+        <a href="http://pmcloud.kr/" class="pm-cloud col-12">
+            <img src="/images/pm_cloud.png" alt="Hosting service for MCBE SERVER">
+        </a>
+        <div class="w-100"></div>
+        <div class="btn btn-outline-primary col-5" onclick="openAll()">모두 펴기</div>
+        <div class="btn btn-outline-primary col-5" onclick="closeAll()">모두 접기</div>
+    </div>
+    <!--<div class="center row">
+        <h6 class="col-md-6 center-flex" style="padding-top: 10px">정렬 방식</h6>
+        <div class="col-md-6 center" style="max-width: 60%;">
+            <select class="custom-select" id="sort" onchange="reloadData()">
+                <optgroup label="정렬 방식">
+                    <option value="1" selected>랜덤</option>
+                    <option value="2">동접순</option>
+                </optgroup>
+
+    </select>
+    </div>
+    </div>-->
+    <section class="center">
+        <section id="servers"
+                 style="display: inline-flex; align-items: flex-start; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 20px;">
+            <%
+            String.prototype.replaceAll = function (target, replacement) {
+                return this.split(target).join(replacement);
+            };
+            var string =
+                    "<div class=\"server-card\">\n" +
+                    "<button type='button' class=\"collapsible server-card-header btn btn-outline-secondary \" style='display: block;' data-count='%player_count%' data-rank='%rank%'>\n" +
+                    "<span style='margin-bottom: -5px; display: inline-block; max-width: 73%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-left: 5px;'>%cleaned_motd%</span>" +
+                    "<div style='max-width: 73%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-left: 5px; font-size: 0.87em;'>%host%:%port%</div>" +
+                    "</button>\n" +
+                    "<div class=\"collapsible-content\">\n" +
+                    "<div class=\"server-card-body row\">\n" +
+                    "<div class=\"col-sm-6\">\n" +
+                    "<div>주소</div>\n" +
+                    "<div>%host%:%port%</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"col-sm-6\">\n" +
+                    "<div>동접 / 일간최대</div>\n" +
+                    "<div>%player_count% / %daily_high%</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"col-sm-6\">\n" +
+                    "<div>순위</div>\n" +
+                    "<div>%rank%등</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"col-sm-6\">\n" +
+                    "<div>서버 업타임</div>\n" +
+                    "<div>%successPercentage%%</div>\n" +
+                    "</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"server-card-footer\">ver: %version%, engine: %engine%</div>\n" +
+                    "</div>\n" +
+                    "</div>";
+            var results = [];
+            for (let data of Object.values(servers)) {
+                try {
+                    if (data.online) {
+                        let result = string
+                                .replaceAll("%high%", data.total.high)
+                                .replaceAll("%daily_high%", data.daily.high)
+                                .replaceAll("%weekly_high%", data.weekly.high)
+                                .replaceAll("%rank%", data.rank)
+                                .replaceAll("%successPercentage%", data.total.successPercentage.toFixed(1));
+
+                        result = result.replace(new RegExp(Object.keys(data).map(function (str) {
+                            return "%" + str + "%";
+                        }).join("|"), "gi"), function (substring) {
+                            return data[substring.replaceAll("%", "")];
+                        });
+
+                        results.push(result);
+                    }
+                } catch (e) {
+                    console.debug(e)
+                }
+            }
+            if (results.length < 1) {
+                results.push("<h3>온라인인 서버가 없습니다.</h3>");
+            }
+            %>
+            <%-
+            results.join("\n");
+            %>
+        </section>
+    </section>
+</section>
+
+<footer class="footer-copyright text-center py-3" style="font-size: 13px; color: white; background: #343a40;">
+    &copy; 2018 Copyright
+    <a href="https://pmmp.me/">MCBE RANK</a>
+    , 엔로그 | NLOG
+</footer>
+
+<script>
+    function calcCollapsible() {
+        let coll = document.getElementsByClassName("collapsible");
+
+        for (let i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    }
+
+    function openAll() {
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+            if (coll[i].nextElementSibling.style.maxHeight) {
+            } else {
+                coll[i].click();
+            }
+        }
+    }
+
+    function closeAll() {
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+            if (coll[i].nextElementSibling.style.maxHeight) {
+                coll[i].click();
+            }
+        }
+    }
+
+    calcCollapsible();
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+{
+	"0": {
+		"host": "nnn.kro.kr",
+		"port": 19132,
+		"motd": "아라서버"
+	},
+	"1": {
+		"host": "unix.kro.kr",
+		"port": 19132,
+		"motd": "유닉스 서버"
+	},
+	"2": {
+		"host": "iri.zz.am",
+		"port": 19132,
+		"motd": "아리서버"
+	},
+	"3": {
+		"host": "mcbe.cf",
+		"port": 19132,
+		"motd": "MCBE RANK"
+	},
+	"5": {
+		"host": "y-chalgroup.kr",
+		"port": 19133,
+		"motd": "와이첼 - ERIS 서버"
+	},
+	"6": {
+		"host": "os24.zz.am",
+		"port": 19132,
+		"motd": "오아시스 서버"
+	},
+	"7": {
+		"host": "play.truetone.kro.kr",
+		"port": 19132,
+		"motd": "TrueTone Server"
+	},
+	"8": {
+		"host": "chora.kro.kr",
+		"port": 19132,
+		"motd": "초라 서버"
+	},
+	"9": {
+		"host": "mafa.kro.kr",
+		"port": 19132,
+		"motd": "매직팜 온라인"
+	},
+	"10": {
+		"host": "riha24.p-e.kr",
+		"port": 19132,
+		"motd": "리하 서버"
+	},
+	"11": {
+		"host": "loa24.kro.kr",
+		"port": 19132,
+		"motd": "로아 온라인"
+	},
+	"12": {
+		"host": "dia24.ze.am",
+		"port": 19132,
+		"motd": "다이아 서버"
+	},
+	"13": {
+		"host": "uki24.kro.kr",
+		"port": 19132,
+		"motd": "Uki Server"
+	},
+	"14": {
+		"host": "newnew24.kro.kr",
+		"port": 19132,
+		"motd": "더넥워 서버"
+	},
+	"15": {
+		"host": "sullu.kro.kr",
+		"port": 19132,
+		"motd": "sullu server"
+	},
+	"16": {
+		"host": "mildsv.kro.kr",
+		"port": 19132,
+		"motd": "마일드 서버"
+	},
+	"18": {
+		"host": "pury24.kro.kr",
+		"port": 19132,
+		"motd": "퓨리 서버"
+	},
+	"19": {
+		"host": "haris.zz.am",
+		"port": 19132,
+		"motd": "하리스 서버"
+	},
+	"20": {
+		"host": "vita24.kro.kr",
+		"port": 19132,
+		"motd": "비타 서버"
+	},
+	"21": {
+		"host": "cockon24.kro.kr",
+		"port": 19132,
+		"motd": "코크 온라인"
+	},
+	"22": {
+		"host": "ailce.kro.kr",
+		"port": 19132,
+		"motd": "아리스 서버"
+	},
+	"23": {
+		"host": "ezez.kro.kr",
+		"port": 19132,
+		"motd": "EZ ONLINE"
+	},
+	"24": {
+		"host": "dien.kro.kr",
+		"port": 18000,
+		"motd": "디엔서버"
+	},
+	"25": {
+		"host": "chocoserver.kro.kr",
+		"port": 19132,
+		"motd": "초코 서버"
+	},
+	"26": {
+		"host": "wave24.kro.kr",
+		"port": 19132,
+		"motd": "웨이브 서버"
+	},
+	"27": {
+		"host": "ethan24.kro.kr",
+		"port": 19132,
+		"motd": "에단 서버"
+	},
+	"28": {
+		"host": "bary.kro.kr",
+		"port": 19132,
+		"motd": "바리 서버"
+	},
+	"29": {
+		"host": "flu24.kro.kr",
+		"port": 19132,
+		"motd": "플루 서버"
+	},
+	"30": {
+		"host": "chess.zz.am",
+		"port": 19132,
+		"motd": "체스 서버"
+	},
+	"31": {
+		"host": "play.onebone.me",
+		"port": 19132,
+		"motd": "원본/사본 렐름"
+	},
+	"32": {
+		"host": "dia24.ze.am",
+		"port": 19132,
+		"motd": "다이아 서버"
+	},
+	"33": {
+		"host": "mildsv.kro.kr",
+		"port": 19132,
+		"motd": "마일드 서버"
+	}
+}
