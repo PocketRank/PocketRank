@@ -1,0 +1,47 @@
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="" id="navbar">
+    <a class="navbar-brand" style="color: #ffffff;">MCBE RANK</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto" id="navbar_menu">
+            <li class="nav-item">
+                <a class="nav-link" id="naverLogin">NAVER</a>
+                <%
+                let output = "";
+                if (!isLogin) {
+                    output = "<script>generateImage();</script>";
+                } else {
+                    output = "<script>document.getElementById('naverLogin').innerHTML = \"로그아웃\"; document.getElementById('naverLogin').href = 'https://' + location.host + '/logout';</script>";
+                }
+                %>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/plugins/">플러그인 목록</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/">API</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#rank_chart">그래프</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#servers">서버 목록</a>
+            </li>
+            <li class="nav-item">
+                <a href='/register/' class='nav-link'>서버 등록</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<%- output %>
+
+<script>
+    $(window).resize(() => {
+        document.getElementById("navbar").style.margin.bottom = document.getElementById("navbar").style.height;
+    })
+</script>

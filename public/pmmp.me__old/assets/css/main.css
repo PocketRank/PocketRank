@@ -29,11 +29,6 @@
     color: white;
 }
 
-.navbar-nav {
-    align-items: baseline;
-    display: flex;
-}
-
 @media (max-width: 800px) {
     .default-container {
         width: 90%;

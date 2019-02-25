@@ -47,8 +47,6 @@
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.actual/1.0.19/jquery.actual.min.js"></script>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -56,6 +54,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-html.min.js"></script>
 
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
 
     <script src="/assets/js/mine-chart/ResponsiveSVG.js"></script>
     <script src="/assets/js/mine-chart/mine-chart.js"></script>
@@ -73,13 +72,53 @@
     <meta name="google-site-verification" content="cZoibOe8E0vZBBMdFF0CjxtLR7RM96r6flqG0F27mdw"/>
     <meta name="naver-site-verification" content="6ecbc4acfc7912f9f84978b91cbf0e7982716669"/>
 
+
     <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6147290477739165",
+            enable_page_level_ads: true
+        });
+
         Kakao.init('e133a8b9351a82b23ddcac7a4d964686');
     </script>
 </head>
 <body>
 
-<%- ejs.render(fs.readFileSync(__app + "/components/navbar.ejs", "utf8"), {isLogin: isLogin}) %>
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="" id="navbar">
+    <a class="navbar-brand" href="/">MCBE RANK</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto" id="navbar_menu">
+            <li class="nav-item">
+                <div id="naverIdLogin" style="padding: 7px 0;"></div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/plugins/">플러그인 목록</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/">API</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#rank_chart">그래프</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#servers">서버 목록</a>
+            </li>
+            <hr>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    $(window).resize(() => {
+        document.getElementById("navbar").style.margin.bottom = document.getElementById("navbar").style.height;
+    })
+</script>
 
 <div class="alert alert-warning">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -95,7 +134,7 @@
         });
     </script>
     <hr>
-    <a class="mb-0" id="login-alert" style="font-weight: bold;">Login with NAVER</a>
+    <a class="mb-0" id="gnbLogin" style="font-weight: bold;">Login with NAVER</a>
 </div>
 
 <button onclick="refreshData()" type="button" class="btn btn-outline-success"
@@ -313,9 +352,43 @@
 
     calcCollapsible();
 
-    document.getElementById('login-alert').innerHTML = document.getElementById('naverLogin').innerHTML;
-    document.getElementById('login-alert').href = document.getElementById('naverLogin').href;
+    var naverLogin = new naver.LoginWithNaverId(
+        {
+            clientId: "GqKx7MNZlzTF0vUFdRak",
+            callbackUrl: "https://nlog.cf/login/",
+            isPopup: true,
+            loginButton: {height: 30, type: 3, color: "white"}
+        }
+    );
 
+    naverLogin.init();
+
+    window.addEventListener('load', function () {
+        naverLogin.getLoginStatus(function (status) {
+            if (status) {
+                var email = naverLogin.user.getEmail();
+                var uniqId = naverLogin.user.getId();
+
+                if (email !== undefined && uniqId !== undefined) {
+                    let el = document.getElementById("naverIdLogin");
+                    el.outerHTML = "<button onclick='naverLogin.logout(); location.reload();' type=\"button\" class=\"btn btn-outline-success nav-link\" id=\"naverIdLogin\" style='padding: 7px 8px;'>로그아웃</button>";
+                    el.href = "#";
+
+                    document.getElementById("navbar_menu").innerHTML +=
+                        "<li class='nav-item'><button type=\"button\" class=\"btn btn-outline-success nav-link\" style='padding: 7px 8px;' onclick='location.replace(\"https://\" + window.location.hostname + \"/register/\")'>서버 등록</button></li>";
+                    document.getElementById("gnbLogin").innerHTML = "네이버로 로그인하였습니다.<hr>이제 우측 상단바에서 서버 등록을 진행하실 수 있습니다.";
+                } else {
+                    alert("AccessToken 이 올바르지 않습니다.");
+                    naverLogin.logout();
+                    location.reload();
+                }
+            } else {
+                document.getElementById("gnbLogin").innerHTML = document.getElementById("naverIdLogin").innerHTML;
+                $("#gnbLogin > a").attr("id", '');
+                $("#gnbLogin *").attr("href", naverLogin.generateAuthorizeUrl());
+            }
+        });
+    });
 </script>
 </body>
 </html>

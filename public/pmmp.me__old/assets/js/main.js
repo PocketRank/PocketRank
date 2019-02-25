@@ -1,8 +1,6 @@
 window.__lastData = undefined;
 window.__lastChecked = true;
 
-window.__client_id = "GqKx7MNZlzTF0vUFdRak";
-
 async function reloadData() {
     try {
         let server_status = (document.getElementById("online").checked);
@@ -115,7 +113,7 @@ async function reloadData() {
 
             document.getElementById('servers').innerHTML = html_beautify(results.join("\n"));
             calcCollapsible();
-        } else {
+        }else{
             alert("API가 정상적으로 작동하지 않습니다.");
             alert(__lastData.error);
         }
@@ -156,25 +154,4 @@ function getServerData(status) {
             resolve(false);
         }, 2000); // 2s to timeout
     })]);
-}
-
-function generateImage() {
-    document.getElementById('naverLogin').style.height = "50px";
-    document.getElementById('naverLogin').href = getAuthorizeURI();
-    document.getElementById('naverLogin').innerHTML = "<img src='https://static.nid.naver.com/oauth/big_w.PNG?version=js-2.0.0' " +
-        "height='" + $('#naverLogin').actual("height") + "px'>";
-}
-
-function getAuthorizeURI() {
-    return location.protocol + "//" + location.host + "/login/";
-}
-
-function updateRegisterForm() {
-    document.getElementById('register_form').style.display = 'none';
-    document.getElementById('login_desc').style.display = 'none';
-    if (__token !== '' && isLogin) {//is login
-        document.getElementById('register_form').style.display = 'block';
-    }else{
-        document.getElementById('login_desc').style.display = 'block';
-    }
 }

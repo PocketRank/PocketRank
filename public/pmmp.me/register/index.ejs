@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head><!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128882787-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-128882787-1');
+    </script>
+
+
+    <meta charset="UTF-8">
+    <title>MCBE RANK | 서버 등록</title>
+
+    <!-- Site Setting -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name=theme-color" content="#37474f">
+
+    <!-- Site Information -->
+    <meta name="description" content="마인크래프트 BE 서버 등록 사이트입니다.">
+    <link rel="canonical" href="https://pmmp.me/register/">
+    <meta property="al:web:url" content="https://pmmp.me/register/">
+
+    <!-- open graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MCBE RANK | Register">
+    <meta property="og:description" content="마인크래프트 BE 서버 등록 사이트입니다.">
+    <meta property="og:image" content="https://pmmp.me/images/Logo.png">
+    <meta property="og:url" content="https://pmmp.me/register/">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.actual/1.0.19/jquery.actual.min.js"></script>
+
+    <!-- Load fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <link href="/assets/css/main.css" rel="stylesheet">
+	
+	<script src="/assets/js/main.js"></script>
+
+    <style>
+        * {
+            font-family: 'Nanum Gothic', sans-serif;
+        !important;
+        }
+
+        *::selection {
+            background: #b3d4fc;
+            text-shadow: none;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        a {
+            color: rgb(255, 64, 129);
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+<%- ejs.render(fs.readFileSync(__app + "/components/navbar.ejs", "utf8"), {isLogin: isLogin}) %>
+
+<section class="container-fluid" style="min-height: 100%; margin-top: 30px;">
+    <h3>서버 등록</h3>
+    <hr>
+    <article style="display: none;" id="login_desc">
+        네이버 로그인 이후에 사용이 가능한 기능입니다.<br>
+        아래 버튼을 눌러 로그인을 시도해주세요.<br><br><br>
+        <a id="login-alert" style="font-weight: bold;">Login with NAVER</a>
+    </article>
+    <form style="display: none;" id="register_form" onsubmit="return handleRegisterRequest();">
+        <div class="form-group">
+            <label for="server_name">서버 이름</label>
+            <input type="text" class="form-control form-data" id="server_name" aria-describedby="server-name-help"
+                   placeholder="서버 이름..." onchange="motdChange(this)">
+            <small id="server-name-help" class="form-text text-muted">추가하고자 하는 서버의 간략한 이름을 써주세요. (예시: 레오서버, 유닉스 서버
+                등...)
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="server_address">서버 주소</label>
+            <input type="text" class="form-control form-data" id="server_address" placeholder="서버 주소...">
+        </div>
+        <div class="form-group">
+            <label for="server_address">서버 포트</label>
+            <input type="text" class="form-control form-data" id="server_address" placeholder="서버 포트..." value="19132">
+        </div>
+		<div class="custom-control custom-checkbox">
+			<input type="checkbox" class="custom-control-input" id="policy-agree">
+			<label class="custom-control-label" for="policy-agree"><a href="/policy/">이용 약관</a>을 충분히 읽고 동의하였음을 확인합니다.</label>
+		</div>
+		<br>
+        <button type="submit" class="btn btn-outline-primary">서버 등록하기</button>
+    </form>
+</section>
+
+<footer class="footer-copyright text-center py-3" style="font-size: 13px; color: white; background: #343a40;">
+    &copy; 2018 Copyright
+    <a href="https://pmmp.me/">MCBE RANK</a>
+    , 엔로그 | NLOG
+</footer>
+
+<script>
+    window.__token = "<%- token || '' %>";
+    window.isLogin = <%- isLogin ? "true" : "false" %>;
+
+    document.getElementById('login-alert').innerHTML = document.getElementById('naverLogin').innerHTML;
+    document.getElementById('login-alert').href = document.getElementById('naverLogin').href;
+
+    updateRegisterForm();
+
+    function handleRegisterRequest() {
+        let d = document.getElementsByClassName('form-data');
+        for (let i = 0; i < d.length; i++) {
+
+        }
+
+        return false; // prevent default event.
+    }
+
+    function motdChange(motd) {
+        motd = motd.text;
+        let e = document.getElementById('server_name');
+        e.classList.remove('is-valid');
+        e.classList.remove('is-invalid');
+        if (motd) {
+            e.classList.add('is-valid');
+        }else{
+            e.classList.add('is-invalid');
+        }
+    }
+</script>
+
+</body>
+
+</html>

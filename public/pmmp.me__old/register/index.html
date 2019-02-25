@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head><!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128882787-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-128882787-1');
+    </script>
+
+
+    <meta charset="UTF-8">
+    <title>MCBE RANK | 서버 등록</title>
+
+    <!-- Site Setting -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name=theme-color" content="#37474f">
+
+    <!-- Site Information -->
+    <meta name="description" content="마인크래프트 BE 서버 등록 사이트입니다.">
+    <link rel="canonical" href="https://pmmp.me/register/">
+    <meta property="al:web:url" content="https://pmmp.me/register/">
+
+    <!-- open graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MCBE RANK | Register">
+    <meta property="og:description" content="마인크래프트 BE 서버 등록 사이트입니다.">
+    <meta property="og:image" content="https://pmmp.me/images/Logo.png">
+    <meta property="og:url" content="https://pmmp.me/register/">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- Load fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Nanum Gothic', sans-serif;
+        !important;
+        }
+
+        *::selection {
+            background: #b3d4fc;
+            text-shadow: none;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        a {
+            color: rgb(255, 64, 129);
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
+    <a class="navbar-brand" href="/register/">서버 등록</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/">API</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/plugins/">플러그인 목록</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<section class="container-fluid" style="min-height: 100%;" id="sect">
+    <a class="mb-0" id="gnbLogin" style="font-weight: bold;">Login with NAVER</a>
+</section>
+
+<footer class="footer-copyright text-center py-3" style="font-size: 13px; color: white; background: #343a40;">
+    &copy; 2018 Copyright
+    <a href="https://pmmp.me/">MCBE RANK</a>
+    , 엔로그 | NLOG
+</footer>
+
+<script>
+    $(window).resize(() => {
+        document.getElementById("navbar").style.margin.bottom = document.getElementById("navbar").style.height;
+    });
+</script>
+</body>
+
+</html>

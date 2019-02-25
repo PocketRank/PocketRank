@@ -1,12 +1,16 @@
 global.__app = __dirname;
 global.__htmlRoot = __app + "/public/";
-global.__default_htmlRoot = __htmlRoot + "pmmp.me/";
+global.__ssl_default = __ssl_root + "mcbe.cf/";
 global.__data = __app + "/data/";
 global.__csv_data = __app + "/data/csv/";
 global.__csv_total_data = __app + "/data/csv/total.csv";
 
 global.__ssl_root = __app + "/ssl/";
-global.__ssl_default = __ssl_root + "mcbe.cf/";
+global.__ssl_default = __ssl_root + "default/";
+
+global.__state = [];
+global.__client_id = ""; //naver client id
+global.__client_secret = ""; //naver client secret
 
 String.prototype.replaceAll = function (target, replacement) {
     return this.split(target).join(replacement);
@@ -23,6 +27,7 @@ const tls = require("tls");
 const TLSSocket = tls.TLSSocket;
 const beautifier = require("js-beautify");
 const crypto = require('crypto');
+const Cookies = require("cookies");
 
 function getSecureContext(domain) {
     return tls.createSecureContext({
@@ -39,18 +44,11 @@ var options = {
     cert: fs.readFileSync(__ssl_default + '/cert.pem'),
     ca: fs.readFileSync(__ssl_default + '/ca.pem')
 };
-//var Promise = require("promise");
-/*
-const options = {
-    key: fs.readFileSync(__app + '/key.pem'),
-    cert: fs.readFileSync(__app + '/cert.pem'),
-    ca: fs.readFileSync(__app + '/ca.pem'),
-    // csr: fs.readFileSync(__app + '/csr.pem')
-};*/
 
 mime.types["ejs"] = mime.lookup("html");
 
 global.api = require(__app + "/lib/response/ApiHandler");
+const NaverLogin = require(__app + "/lib/response/NaverLogin");
 const QueryService = require(__app + "/lib/query/QueryService");
 const PlusFriend = require(__app + "/lib/response/PlusFriend");
 
@@ -90,7 +88,7 @@ __query.start().catch(e => {
 
 async function handleRequest(request, response) {
     let path = request.url.split("?")[0];
-    let host = request.headers.host.match(/[^\.]*\.[^.]*$/)[0];
+    let host = request.headers.host.match(/[^\.]*\.[^.]*$/)[0] || "pmmp.me";
 
     if (await existsFile(__htmlRoot + host + "/") && (await util.promisify(fs.stat)(__htmlRoot + host + "/")).isDirectory()) {
         host = __htmlRoot + host + "/";
@@ -100,6 +98,22 @@ async function handleRequest(request, response) {
 
     let realRoot = host;
     do {
+        if (path === "/login" || path.indexOf("/login/") === 0) {
+            NaverLogin.handleRequest(request, response);
+            return;
+        }
+		let cookie = new Cookies(request, response);
+		if (path === "/logout" || path.indexOf("/logout/") === 0) {
+			cookie.set("refresh_token", "", {expires:  new Date(0), domain: "nlog.cf", path: "/"});
+			cookie.set("access_token", "", {expires: new Date(0), domain: "nlog.cf", path: "/"});
+			response.writeHead(301, {
+                'Content-Type': 'text/plain',
+                'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+                'Location': 'https://' + request.headers.host + '/'
+            });
+            response.end();
+			return;
+		}
         if (await existsFile(realRoot + path)) {
             let realpath = "";
             if ((realpath = await util.promisify(fs.realpath)(realRoot + path))) {
@@ -136,9 +150,21 @@ async function handleRequest(request, response) {
                     }
                 }
                 if (ModulePath.extname(realpath) === ".ejs") {
+					let isLogin = false;
+					await NaverLogin.isLogined(cookie.get("access_token")).then(data => { isLogin = data; });
+					if (typeof isLogin !== "boolean") {
+						isLogin = false;
+					}
                     var data = ejs.render(
                         await util.promisify(fs.readFile)(realpath, "utf8"),
-                        {servers: (await api.handleHTMLRequest(undefined, undefined, "/api/getOnlineServers/", true)).result}
+                        {
+                            servers: (await api.handleHTMLRequest(undefined, undefined, "/api/getOnlineServers/", true)).result,
+                            ejs: ejs,
+                            fs: fs,
+                            request: request,
+							isLogin: isLogin,
+                            token: cookie.get("access_token")
+                        }
                     );
                 }
 

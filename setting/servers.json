@@ -158,5 +158,20 @@
 		"host": "mildsv.kro.kr",
 		"port": 19132,
 		"motd": "마일드 서버"
+	},
+	"34": {
+		"host": "arthost.pro-online.kro.kr",
+		"port": 19132,
+		"motd": "프로 온라인"
+	},
+	"35": {
+		"host": "dotore.kro.kr",
+		"port": 19132,
+		"motd": "토리 서버"
+	},
+	"36": {
+		"host": "kaiser.20.ze.am",
+		"port": 19132,
+		"motd": "카이져 온라인"
 	}
 }
